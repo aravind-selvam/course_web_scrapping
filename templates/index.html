@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+<title>Aravind's Project</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+{% endblock %}
+
+{% block body %}
+<div class="content">
+    <h1 style="text-align: center">Search iNeuron website's courses here</h1>
+
+    <div class="form">
+        <form action="/course" method="POST">
+            <select name="content" required>
+			    <option value="" disabled selected>Select Course</option>
+			    {% for course in course_in %}
+			    <option value="{{course}}">{{course}}</option>
+			    {% endfor %}
+		    </select>
+	        <br />
+	        <button type="submit">SUBMIT</button>
+        </form>
+	</div>
+<footer>
+	<div class="contact-details" >
+				Project by: Aravind S
+				<a
+					href="https://github.com/aravind9722"
+					rel="noopener noreferrer"
+					target="_blank"
+				>
+					<img src="{{ url_for('static',filename='image/Github.svg') }}" />
+				</a>
+			</div>
+</footer>
+</div>
+{% endblock %}

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+  <meta charset="UTF-8">
+  <title>Result Page</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+
+
+      <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+
+</head>
+
+<body>
+
+  <div class="table-users">
+   <div class="header">Ineuron Courses Data</div>
+      <div style="overflow-x:auto; overflow-y:scroll;">
+          <table>
+              <tr>
+                 <th>Course Name</th>
+                 <th>Description</th>
+                 <th>Pricing</th>
+                  <th>Learn</th>
+                 <th>Language</th>
+                 <th>Requirements</th>
+                 <th>Curriculum</th>
+
+              </tr>
+          <tr>
+              <td>{{course_data['Course_title']}}</td>
+             <td>{{course_data['Description']}}</td>
+             <td>{{course_data['Pricing']}}</td>
+             <td>{{course_data['Learn']}} </td>
+              <td>{{course_data['Language']}} </td>
+              <td>{{course_data['Requirements']}}</td>
+             <td>{{course_data['Curriculum_data']}} </td>
+
+          </tr>
+          </table>
+      </div>
+
+
+    </div>
+
+
+
+</body>
+
+</html>

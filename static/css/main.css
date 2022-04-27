@@ -1,0 +1,73 @@
+body, html {
+    margin: 0;
+    font-family: sans-serif;
+}
+
+.content {
+    margin: 0 auto;
+    width: 400px;
+}
+
+table, td, th {
+    border: 1px solid #aaa;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th {
+    height: 30px;
+}
+
+td {
+    text-align: center;
+    padding: 5px;
+}
+
+.form {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	margin: 5rem;
+}
+button,
+.button {
+	width: 14rem;
+	background-color: var(--secondary-color);
+	border: black;
+	border-radius: 10px;
+	color: solid black;
+	padding: 0.2rem 0.3rem;
+	border: 1px solid (--main-black);
+	box-shadow: 1px 1px 2px var(--main-black);
+	cursor: pointer;
+	align-items: center;
+	text-align: right;
+}
+
+.form select {
+	width: 25rem;
+	padding: 0.5rem 1rem;
+	border-radius: 15px;
+	border: 1px solid var(--main-grey);
+}
+.contact-details a img {
+	padding: 0.1rem;
+	height: 2rem;
+	width: 2rem;
+	filter: invert(1) drop-shadow(1px 2px 2px var(--main-grey));
+}
+.contact-details {
+	display: flex;
+	align-items: center;
+}
+.contact-details a:hover img,
+.contact-details a:focus img {
+	filter: invert(0.8) drop-shadow(1px 2px 2px var(--main-black));
+}
+#content {
+    width: 70%;
+}
