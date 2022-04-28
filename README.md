@@ -67,6 +67,7 @@
 * Install Heroku CLI and login using `heroku login` and setup the app in Heroku Web.
 * Connect with app `heroku git:remote -a appname`
 * Push to Heroku using `git push heroku main`
+* [Heroku Deployment Link](https://webscrapper-project-aravind.herokuapp.com/)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
