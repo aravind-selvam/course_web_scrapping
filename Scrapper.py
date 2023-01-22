@@ -1,21 +1,33 @@
-import logging
-from bs4 import BeautifulSoup as bs
-from urllib.request import urlopen as uReq
 import json
+import logging
+from urllib.request import urlopen as uReq
+
+from bs4 import BeautifulSoup as bs
+
 from mongodb import mongodbconnection
 
 ### Setting up Logging file ###
-logging.basicConfig(filename="flask_logs.log",format='%(asctime)s %(message)s',filemode='w',level = logging.DEBUG)
+logging.basicConfig(filename="flask_logs.log",
+                    format='%(asctime)s %(message)s', filemode='w', level=logging.DEBUG)
 
 ### Function to Scrap all course title from iNeuron website ###
+
+
 def all_course():
+    """
+    It scrapes the website and returns a list of all the courses available on the website.
+    
+    Returns:
+      A list of all the courses available on the website.
+    """
     try:
         ineuron_url = 'https://courses.ineuron.ai/'
         uClient = uReq(ineuron_url)
         ineuron_page = uClient.read()
         uClient.close()
         ineuron_html = bs(ineuron_page, 'html.parser')
-        course_data = json.loads(ineuron_html.find('script', {"id": "__NEXT_DATA__"}).get_text())
+        course_data = json.loads(ineuron_html.find(
+            'script', {"id": "__NEXT_DATA__"}).get_text())
         all_courses = course_data['props']['pageProps']['initialState']['init']['courses']
         course_namelist = list(all_courses.keys())
         return course_namelist
@@ -23,16 +35,28 @@ def all_course():
         logging.error('Error in scraping at all_course()')
 
 ### Function to Scrap one Course details from iNeuron website ###
+
+
 def get_course(coursename):
+    """
+    It takes a course name as input and returns a dictionary of all the details of the course.
+    
+    Args:
+      coursename: The name of the course you want to scrape.
+    
+    Returns:
+      A dictionary of course details
+    """
     ineuron_url = 'https://courses.ineuron.ai/'
     uClient = uReq(ineuron_url + str(coursename).replace(" ", "-"))
     course_page = uClient.read()
     uClient.close()
     ineuron_html = bs(course_page, 'html.parser')
-    course_data1 = json.loads(ineuron_html.find('script', {"id": "__NEXT_DATA__"}).get_text())
+    course_data1 = json.loads(ineuron_html.find(
+        'script', {"id": "__NEXT_DATA__"}).get_text())
     logging.info('Course data saved as JSON format')
     all_dict = {}
-    #list = []
+    # list = []
     try:
         try:
             all_data = course_data1["props"]["pageProps"]
@@ -58,7 +82,7 @@ def get_course(coursename):
             overview_data = meta_data['overview']
         except:
             overview_data = 'No overview_data'
-#####   Building a Course Dictionary
+# Building a Course Dictionary
         try:
             pricing_inr = detailed_data['pricing']['IN']
         except:
@@ -89,9 +113,9 @@ def get_course(coursename):
                 curriculum.append(curriculum_data[i]["title"])
                 ### Saving all the data in dictionary format ###
             all_dict = {"Course_title": course_name, "Description": description,
-                 "Language": language, "Pricing": pricing_inr,
-                 "Curriculum_data": curriculum, "Learn": learn,
-                 "Requirements": req}
+                        "Language": language, "Pricing": pricing_inr,
+                        "Curriculum_data": curriculum, "Learn": learn,
+                        "Requirements": req}
             logging.info('dict is created')
         except:
             curriculum.append('NULL')
@@ -100,12 +124,18 @@ def get_course(coursename):
         logging.error('Error in Scrapping at get_course()')
 
 ### Function which gets all the course data and saves it in mongodb ###
+
+
 def scrap_all():
-    #mongodb module to do mongodb operations
-    dbcon = mongodbconnection(username = 'mongodb', password = 'mongodb')
-    db_collection = dbcon.getCollection("iNeuron_scrapper","course_collection")
+    """
+    It checks if the collection is present in the database, if it is, it does nothing, if it isn't, it
+    scrapes the data and inserts it into the database
+    """
+    dbcon = mongodbconnection(username='mongodb', password='mongodb')
+    db_collection = dbcon.getCollection(
+        "iNeuron_scrapper", "course_collection")
     try:
-        if dbcon.isCollectionPresent("iNeuron_scrapper","course_collection"):
+        if dbcon.isCollectionPresent("iNeuron_scrapper", "course_collection"):
             pass
         else:
             final_list = []
@@ -114,9 +144,4 @@ def scrap_all():
                 final_list.append(get_course(i))
             db_collection.insert_many(final_list)
     except Exception as e:
-            logging.error("error in DB insertion",e)
-
-
-
-
-
+        logging.error("error in DB insertion", e)
